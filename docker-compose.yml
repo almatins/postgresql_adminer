@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    build:
+      context: ./database
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=vis_ho
+    volumes:
+      - ./backup:/home
+      - ./postgresql:/var/lib/postgresql/data
+    networks:
+      - dockernet
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - dockernet
+
+networks: 
+  dockernet:
+    external: true
